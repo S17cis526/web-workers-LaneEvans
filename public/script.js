@@ -66,7 +66,7 @@ $('#permute-in-main').on('click', function(event) {
  * When the calculate-in-web-worker button is clicked,
  * calculcate the permutations in a web worker.
  */
-$('#permutate-in-web-worker').on('click', function(event){
+$('#permute-in-web-worker').on('click', function(event){
   event.preventDefault();
 
   // Perform preparations
@@ -74,7 +74,12 @@ $('#permutate-in-web-worker').on('click', function(event){
   $('#permutation-message').text("Calculating in web worker...");
 
   // TODO: Calculate permutations using a web worker
-})
+  var worker = new Worker('permutations.js');
+  worker.postMessage($('#n').val());
+  worker.onmessage = function(permutations) {
+    $('<li>').text(permutations).appendTo('#permutation-results');
+  }
+});
 
 
 $('#image-chunk-list > img').on('click', function(event){
